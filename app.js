@@ -13,7 +13,24 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 
 app.get('/', (req, res)=> {
-    res.render('index')
+    let homePageData={
+        'price': 31.25,
+        'wind': 8,
+        'temperature': -12,
+    }
+    res.render('index', homePageData)
+
+});
+
+app.get('/hourly', (req, res)=> {
+
+    let hourlyPageData = {hourlyPrices:[ 
+        {hour: 13, price: 31.44},
+        {hour: 14, price: 30.12},
+        {hour: 15, price: 15.34}
+]};
+    
+    res.render('hourly', hourlyPageData)
 
 });
 
