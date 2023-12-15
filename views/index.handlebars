@@ -4,3 +4,69 @@
 
 <h2>Tuuli {{wind}} m/s </h2>
 <h2>Lämpötila {{temperature}} C </h2>
+<h2>
+    <br>
+    <br>
+</h2>
+
+<h3>Tänään on</h3>
+<h3 id="dayName"></h3>
+<h3 id="dateString"></h3>
+
+
+
+<h2 onload=showTime() id="clock" class="digitalClock"></h2>
+<script>
+    const showTime=()=>{
+
+        let date = new Date();
+
+        let h = date.getHours();
+        let m = date.getMinutes();
+        let s = date.getSeconds();
+        //var session = "AM";
+        let weekdayNumber = date.getDay();
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        //var session = "AM";
+
+        /*
+        if(h==0){
+            h=12;
+        }
+        if(h>12){
+            h = h - 12;
+            session = "PM";
+        }
+        */
+
+        h = (h < 10) ? "0" + h : h;
+        m = (m < 10) ? "0" + m : m;
+        s = (s < 10) ? "0" + s : s;
+
+        const dayNameLookup = {
+            1: 'maanantai',
+            2: 'tiistai',
+            3: 'keskiviikko',
+            4: 'torstai',
+            5: 'perjantai',
+            6:'lauantai',
+            7:'sunnuntai',
+
+        };
+
+        let dayName = dayNameLookup[weekdayNumber];
+
+        var time = h + ":" + m + ":" + s; // voi lisätä jos haluat "AM" ja "PM"+ session;
+        document.getElementById("clock").innerHTML = time;
+
+        document.getElementById("dayName").innerHTML = dayName;
+
+        document.getElementById("dateString").innerHTML = day + "." + month + "." + year
+
+        setTimeout(showTime, 1000);
+    }
+
+    showTime();
+</script>
