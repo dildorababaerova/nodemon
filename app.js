@@ -1,6 +1,12 @@
 const express = require('express');
 const {engine} = require('express-handlebars');
 
+const fetch = require('node-fetch');
+
+//import fetch from 'node-fetch';
+
+
+
 
 const app = express();
 const PORT = process.env.PORT || 8080
@@ -47,6 +53,7 @@ app.get('/test', (req, res) => {
 
     res.render('testCJSv4', chartPageData);
 });
+
 
 app.listen(PORT);
 console.log('Server started and it will listen TCP port', PORT);
