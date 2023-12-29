@@ -1,3 +1,4 @@
+CREATE View public.previous_month_average AS
 SELECT keskihinta,
 yläraja,
 alaraja
