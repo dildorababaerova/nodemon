@@ -10,19 +10,18 @@ const pool= new Pool({
 
 let sqlClause = 'SELECT * FROM public.hourly_price'
 
-/*
-const query1 = pool.query(sqlClause, (error, results) =>{
+
+const query1 = pool.query(sqlClause, (error, results) => {
     if (error) {
         throw error;
     }
     console.log(results.rows);
 });
-*/
 
-const query = async () => {
+const query2 = async () => {
     let resultset = await pool.query(sqlClause);
     return resultset
 }
 
-query()
-.then((resultset) => console.log(resultset.rows))
+query2()
+.then((resultset) => console.log(resultset.rows[0]))
