@@ -10,7 +10,7 @@ const pool= new Pool({
 
 let sqlClause = 'SELECT * FROM public.hourly_price'
 
-const query1 = pool.query(sqlClause, (error, results) =>{
+const query1 = pool.query(sqlClause, (error, results) => {
     if (error) {
         throw error;
     }
