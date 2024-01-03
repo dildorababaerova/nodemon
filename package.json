@@ -22,9 +22,11 @@
     "Electricity",
     "prices"
   ],
+  "type": "module",
   "author": "Didi",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.2"
   }
 }
+

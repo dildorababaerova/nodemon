@@ -2,7 +2,7 @@ const Pool = require('pg').Pool;
 
 const cron = require('node-cron');
 
-const getPrice = ('./getNewPrices');
+const getPrices = require('./getNewPrices');
 
 const pool = new Pool ({
     user: 'postgres',
@@ -24,19 +24,22 @@ if (lastFetchedDate != dateStr) {
             let values = [element.startDate, element.price];
 
             const sqlClause = 
-            'INSERT INTO public.hourly_price VALUES ($1, $2) RETURNING *';
+            'INSERT INTO public.hourly_price VALUES ($1, $2) ON CONFLICT DO NOTHING RETURNING *';
 
-        const res = await pool.query(sqlClause, values);
-        console.log('The following data has been saved', res.rows[0]);
+        const runQuery = async () => {
+            let resultset = await pool.query(sqlClause, values);
+            return resultset;
+        }
+            runQuery()
+            .then((resultset) => console.log(resultset.rows[0]))
         });
     });
     lastFetchedDate =dateStr;
+    console.log('Fetched at', lastFetchedDate)
 } else {
     console.log('Data has been succesfully retrieved earlier today');
 } 
 } catch (error) {
     console.log('An error occurred, trying again in 5 minutes until 4 PM');
 }
-
-
-})
+});

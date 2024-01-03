@@ -6,12 +6,19 @@ async function fetchLatestPriceData() {
   //console.log(json)
   return json;
 }
+
+
+fetchLatestPriceData()
+    .then((json) => console.log(json))
+    .catch((err) => console.log(err))
+
+module.exports = {
+  fetchLatestPriceData
+} 
+
  
 
-module.exports= {
-    fetchLatestPriceData
-} 
- 
+
 
 
     

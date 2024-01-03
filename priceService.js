@@ -23,3 +23,5 @@ function getPriceForDate(date, prices) {
 fetchLatestPriceData()
     .then((json) => console.log(json))
     .catch((err) => console.log(err))
+
+    
