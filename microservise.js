@@ -4,6 +4,10 @@ const cron = require('node-cron');
 
 const getPrices = require('./getNewPrices');
 
+const logger = require('./logger');
+
+//const AppSettings =require('./handleSettings');
+
 const pool = new Pool ({
     user: 'postgres',
     password: 'Q2werty',
@@ -19,7 +23,12 @@ let timestamp = new Date();
 let dateStr = timestamp.toLocaleDateString();
 
 if (lastFetchedDate != dateStr) {
+    message = 'Started fetching price data'
+
+    console.log(message);
+    logger.add2log(message, logFile)
     getPrices.fetchLatestPriceData().then((json) => {
+    
         json.prices.forEach(async (element) => {
             let values = [element.startDate, element.price];
 
@@ -30,16 +39,33 @@ if (lastFetchedDate != dateStr) {
             let resultset = await pool.query(sqlClause, values);
             return resultset;
         }
-            runQuery()
-            .then((resultset) => console.log(resultset.rows[0]))
+            runQuery().then((resultset) => {
+            
+            if (resultset.rows[0] != undefined) {
+                message = 'Added a row'
+            } else {
+            message = 'Skipped an existing row'
+            }
+        console.log(message);
+        logger.add2log(message, logFile)
         });
     });
+});
     lastFetchedDate =dateStr;
-    console.log('Fetched at', lastFetchedDate)
+    message = 'Fetched at' + lastFetchedDate
+    console.log(message)
+    logger.add2log(message, logFile)
+    
+    
 } else {
-    console.log('Data has been succesfully retrieved earlier today');
+    message = 'Next scheduled event:Data has been succesfully retrieved earlier today' 
+    console.log(message);
+    logger.add2log(message, logFile)
 } 
 } catch (error) {
-    console.log('An error occurred, trying again in 5 minutes until 4 PM');
+    message = 'An error occurred (' + error.toString() + '), trying again in 5 minutes until 4 PM';
+    console.log(message)
+    logger.add2log(message, logFile)
 }
+
 });
