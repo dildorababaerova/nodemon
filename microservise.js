@@ -13,7 +13,7 @@ const pool = new Pool ({
 })
 
 let lastFetchedDate = '1.1.2023';
-cron.schedule('* 22 * * *', () => {
+cron.schedule('0/5 11 * * *', () => {
     try {
 let timestamp = new Date();
 let dateStr = timestamp.toLocaleDateString();
