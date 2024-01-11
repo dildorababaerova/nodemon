@@ -3,6 +3,8 @@ const {engine} = require('express-handlebars');
 
 const fetch = require('node-fetch');
 
+const testPgPool = require('./testPgPool');
+
 //import fetch from 'node-fetch';
 
 
@@ -21,28 +23,40 @@ app.set('view engine', 'handlebars');
 app.get('/', (req, res)=> {
     
     let homePageData= {
-        'price': 31.25,
-        'wind': 8,
-        'temperature': -12,
-    }
+        'price': 0,
+        'wind': 0,
+        'temperature': 0,
+    };
+
+    // testPgPool.query2().then(
+    //     (results) => {
+    //         homePageData.price = results.rows[0].price;
+    //         res.render('index', homePageData)
+    //     }
+    // )
+
+    testPgPool.query2().then((resultset) => {
+        homePageData.price = resultset.rows[0]['price']
+        console.log(resultset.rows[0]['price'])   
     res.render('index', homePageData)
 
-});
+    });
+})
 
 app.get('/hourly', (req, res) => {
 
-    let hourlyPageData = {'tableData': [ 
-        {'hour': 13, 
-        'price': 31.44},
-        {'hour': 14, 
-        'price': 30.12},
-        {'hour': 15, 
-        'price': 15.34},
-]};
     
+        
+]};
+    testPgPool.query2().then((resultset) => {
+        homePageData.tableData = resultset.rows
+        let hourlyPageData = {'tableData': tabledata}
+        console.log(resultset.rows)   
     res.render('hourly', hourlyPageData)
 
-});
+    });
+})
+
 
 app.get('/test', (req, res) => {
     let tableHours = [12, 13, 14, 15, 16]
