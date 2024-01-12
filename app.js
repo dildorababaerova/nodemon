@@ -28,29 +28,26 @@ app.get('/', (req, res)=> {
         'temperature': 0,
     };
 
-    // testPgPool.query2().then(
-    //     (results) => {
-    //         homePageData.price = results.rows[0].price;
-    //         res.render('index', homePageData)
-    //     }
-    // )
+    testPgPool.query2().then(
+        (results) => {
+            homePageData.price = results.rows[0].price;
+            res.render('index', homePageData)
+        }
+    )
 
-    testPgPool.query2().then((resultset) => {
-        homePageData.price = resultset.rows[0]['price']
-        console.log(resultset.rows[0]['price'])   
-    res.render('index', homePageData)
+    // testPgPool.query2().then((resultset) => {
+    //     homePageData.price = resultset.rows[0]['price']
+    //     console.log(resultset.rows[0]['price'])   
+    // res.render('index', homePageData)
 
-    });
+    // });
 })
 
-app.get('/hourly', (req, res) => {
+app.get('/hourd', (req, res) => {
 
-    
-        
-]};
     testPgPool.query2().then((resultset) => {
-        homePageData.tableData = resultset.rows
-        let hourlyPageData = {'tableData': tabledata}
+        let tableData = resultset.rows
+        let hourlyPageData = {'tableData': tableData}
         console.log(resultset.rows)   
     res.render('hourly', hourlyPageData)
 
@@ -59,14 +56,30 @@ app.get('/hourly', (req, res) => {
 
 
 app.get('/test', (req, res) => {
-    let tableHours = [12, 13, 14, 15, 16]
-    let jsonTableHours = JSON.stringify(tableHours)
-    let tablePrices = [35, 21, 76, 12, 3]
-    let jsonTablePrices = JSON.stringify(tablePrices)
-    let chartPageData = {'hours': jsonTableHours, 'prices': jsonTablePrices}
 
-    res.render('testCJSv4', chartPageData);
+    testPgPool.query2().then((resultset) => {
+        // xhours= resultset.rows['hour']
+        // yprices= resultset.rows['price']
+        xhours = JSON.stringify(resultset.rows.map(row => Number(row.hour)));
+  
+        yprices = JSON.stringify(resultset.rows.map(row => row.price));
+
+
+        // let tableHours = [xhours]
+        // let jsonTableHours = JSON.stringify(tableHours)
+        // let tablePrices = [yprices]
+        // let jsonTablePrices = JSON.stringify(tablePrices)
+        let chartPageData = {'hours': xhours, 'prices': yprices}
+
+        
+        // console.log(resultset.rows)   
+        res.render('testCJSv4', chartPageData);
+    });
 });
+
+
+    
+    
 
 
 app.listen(PORT);
