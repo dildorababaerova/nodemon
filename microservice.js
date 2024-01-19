@@ -16,7 +16,7 @@ const pool = new Pool ({
     port: 5432,
 })
 
-let lastFetchedDate = '1.1.2023'; // Initial value, in production use settings file
+let lastFetchedDate = '1.1.2024'; // Initial value, in production use settings file
 let message = ''
 const logFile = 'dataOperations.log'
 
@@ -25,7 +25,7 @@ const logFile = 'dataOperations.log'
 
 // Try to run an operation in 5 minute intervals from 3 to 4 PM
 // TODO: Add time pattern to settings.json file
-cron.schedule('* 17 * * *', () => {
+cron.schedule('* 5 * * *', () => {
   try {
     let timestamp = new Date(); // Get the current timestamp
     let dateStr = timestamp.toLocaleDateString(); // Take date part of the timestamp
