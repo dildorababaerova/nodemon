@@ -16,8 +16,7 @@ let sqlClause = 'SELECT * FROM public.hourly_page'
 //         throw error;
 //     }
 //     console.log(results.rows);
-// });
-
+// })
 const query2 = async () => {
     let resultset = await pool.query(sqlClause);
     return resultset

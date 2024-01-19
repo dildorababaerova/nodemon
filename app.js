@@ -28,29 +28,28 @@ app.get('/', (req, res)=> {
         'temperature': 0,
     };
 
-    testPgPool.query2().then(
-        (results) => {
-            homePageData.price = results.rows[0].price;
-            res.render('index', homePageData)
-        }
-    )
-
-    // testPgPool.query2().then((resultset) => {
-    //     homePageData.price = resultset.rows[0]['price']
-    //     console.log(resultset.rows[0]['price'])   
-    // res.render('index', homePageData)
-
-    // });
-})
-
-app.get('/hourd', (req, res) => {
+    // testPgPool.query2().then(
+    //     (results) => {
+    //         homePageData.price = results.rows[0].price;
+    //         res.render('index', homePageData)
+    //     }
+    // )
 
     testPgPool.query2().then((resultset) => {
-        let tableData = resultset.rows
-        let hourlyPageData = {'tableData': tableData}
-        console.log(resultset.rows)   
-    res.render('hourly', hourlyPageData)
+        homePageData.price = resultset.rows[0]['price']
+        console.log(resultset.rows[0]['price'])   
+    res.render('index', homePageData)
 
+    });
+})
+
+app.get('/hourly', (req, res) => {
+
+    testPgPool.query2().then((resultset) => {
+        let tableData = resultset.rows.price
+        let hourlyPageData = {'tableData': tableData}
+        //console.log(resultset.rows)   
+    res.render('hourly', hourlyPageData)
     });
 })
 
@@ -58,17 +57,15 @@ app.get('/hourd', (req, res) => {
 app.get('/test', (req, res) => {
 
     testPgPool.query2().then((resultset) => {
-        // xhours= resultset.rows['hour']
-        // yprices= resultset.rows['price']
+        
         xhours = JSON.stringify(resultset.rows.map(row => Number(row.hour)));
-  
         yprices = JSON.stringify(resultset.rows.map(row => row.price));
 
 
-        // let tableHours = [xhours]
-        // let jsonTableHours = JSON.stringify(tableHours)
+        //let tableHours = [xhours]
+        //let jsonTableHours = JSON.stringify(tableHours)
         // let tablePrices = [yprices]
-        // let jsonTablePrices = JSON.stringify(tablePrices)
+        //let jsonTablePrices = JSON.stringify(tablePrices)
         let chartPageData = {'hours': xhours, 'prices': yprices}
 
         
