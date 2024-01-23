@@ -438,7 +438,7 @@ const weatherDataValue = weatherData.map(row => {
    
 });
 console.log(weatherDataValue) 
-}) ; 
+}); 
 
     
 
