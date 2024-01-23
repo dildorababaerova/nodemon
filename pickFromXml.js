@@ -425,17 +425,20 @@ const xml2objectArray = async (xmlData, dataTemplate) => {
 xml2objectArray(xmlData, dataTemplate).then(result => {
     weatherData = result
     
+    
 const weatherDataValue = weatherData.map(row => {
-    const trimmed =row.trim();
+    const trimmed = row.trim();
     const values = trimmed.split(" ");
 
     return {
-        
-    }
-    
-})
-
-})   
+        temperature: values[2],
+        windDirection: values[0],
+        windSpeed: values[1]
+    };
+   
+});
+console.log(weatherDataValue) 
+}) ; 
 
     
 
