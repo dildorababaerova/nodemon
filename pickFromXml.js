@@ -422,23 +422,32 @@ const xml2objectArray = async (xmlData, dataTemplate) => {
     return  result
 }
 
+
 xml2objectArray(xmlData, dataTemplate).then(result => {
     weatherData = result
-    
-    
-const weatherDataValue = weatherData.forEach(row => {
-    const trimmed = row.trim();
-    const values = trimmed.split(" ");
+    weatherString = weatherData[0].data
+    const cutMark1 = '\n'
+    const weatherDataRows = weatherString.split(cutMark1)
 
-    return {
-        temperature: values[2],
-        windDirection: values[0],
-        windSpeed: values[1]
-    };
-   
+    
+    weatherDataRows.forEach(element => {
+        const trimmedElement = element.trim();
+    // trimmedElement.map(element => {
+    //         const rep = element.replaceAll(" ", ",");
+        console.log(trimmedElement)
+
+//     return {
+//         temperature: values[2],
+//         windDirection: values[0],
+//         windSpeed: values[1]
+//     };
+    
+//  })
+// console.log(weatherDataValue) 
 });
-console.log(weatherDataValue) 
-}); 
+});
+   
+
 
     
 
