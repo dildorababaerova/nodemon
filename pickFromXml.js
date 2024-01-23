@@ -410,21 +410,68 @@ const xmlData=`
 `
 
 
-const template = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:rangeSet',
+const dataTemplate = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:rangeSet',
 {
     data: 'gml:DataBlock/gml:doubleOrNilReasonTupleList'
 }];
 
 
-const xml2objectArray = async (xmlData, template) => {
-    const result = await transform(xmlData, template);
-    return result
+
+const xml2objectArray = async (xmlData, dataTemplate) => {
+    const result = await transform(xmlData, dataTemplate);
+    return  result
 }
+
+xml2objectArray(xmlData, dataTemplate).then(result => {
+    weatherData = result
+    
+const weatherDataValue = weatherData.map(row => {
+    const trimmed =row.trim();
+    const values = trimmed.split(" ");
+
+    return {
+        
+    }
+    
+})
+
+})   
+
+    
+
+
+
+
 
 
 
 
 // Call the function, get results and then log then to the console
-xml2objectArray(xmlData, template).then(result => {
-    console.log(result)
-})
+// xml2objectArray(xmlData, dataTemplate).then(result => {
+//     console.log(result)
+
+// })
+
+// const timeTemplate = ['wfs:FeatureCollection/wfs:member/omso:GridSeriesObservation/om:result/gmlcov:MultiPointCoverage/gml:domainSet/gmlcov:SimpleMultiPoint',
+// {
+//     data: 'gmlcov:positions'
+// }];
+
+
+// // const xml2objectArray = async (xmlData, template2) => {
+// //         const result = await transform(xmlData, template2);
+// //          return result
+// //      }
+
+
+
+// Call the function, get results and then log then to the console
+// xml2objectArray(xmlData, timeTemplate).then(result => {
+//     console.log(result)
+// })
+
+
+
+
+
+
