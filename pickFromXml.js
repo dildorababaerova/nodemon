@@ -426,7 +426,7 @@ xml2objectArray(xmlData, dataTemplate).then(result => {
     weatherData = result
     
     
-const weatherDataValue = weatherData.map(row => {
+const weatherDataValue = weatherData.forEach(row => {
     const trimmed = row.trim();
     const values = trimmed.split(" ");
 
