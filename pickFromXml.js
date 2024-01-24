@@ -422,30 +422,36 @@ const xml2objectArray = async (xmlData, dataTemplate) => {
     return  result
 }
 
-
+// class WeatherObject {
+//     constructor(temperature, windSpeed, windDirection) {
+//       this.temperature = temperature;
+//       this.windSpeed = windSpeed;
+//       this.windDirection = windDirection;
+//     }
+//   }
 xml2objectArray(xmlData, dataTemplate).then(result => {
     weatherData = result
     weatherString = weatherData[0].data
-    const cutMark1 = '\n'
+    const cutMark1 = '\n';
+    const cutMark2 = ' ';
     const weatherDataRows = weatherString.split(cutMark1)
 
     
-    weatherDataRows.forEach(element => {
+    const weatherDataValue = weatherDataRows.map(element => {
         const trimmedElement = element.trim();
-    // trimmedElement.map(element => {
-    //         const rep = element.replaceAll(" ", ",");
-        console.log(trimmedElement)
+        const elementValues = trimmedElement.split(cutMark2)
+        
+        return {
+            temperature : elementValues[2],
+            windSpeed : elementValues[1],
+            windDirection : elementValues[0]
+        }
+    })
+    console.log(weatherDataValue)     
+    });
 
-//     return {
-//         temperature: values[2],
-//         windDirection: values[0],
-//         windSpeed: values[1]
-//     };
-    
-//  })
-// console.log(weatherDataValue) 
-});
-});
+
+
    
 
 
