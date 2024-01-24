@@ -2,6 +2,15 @@ const { transform, prettyPrint } = require('camaro');
 // Define an asyncroneous function for creating JS-objects from xml data
 // Uses xml string and template as arguments, returns an array of JS-objects
 
+class WeatherObject {
+    constructor(temperature, windSpeed, windDirection) {
+      this.temperature = temperature;
+      this.windSpeed = windSpeed;
+      this.windDirection = windDirection;
+    }
+  }
+
+
 const xmlData=`
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -422,13 +431,7 @@ const xml2objectArray = async (xmlData, dataTemplate) => {
     return  result
 }
 
-// class WeatherObject {
-//     constructor(temperature, windSpeed, windDirection) {
-//       this.temperature = temperature;
-//       this.windSpeed = windSpeed;
-//       this.windDirection = windDirection;
-//     }
-//   }
+
 xml2objectArray(xmlData, dataTemplate).then(result => {
     weatherData = result
     weatherString = weatherData[0].data
@@ -446,13 +449,25 @@ xml2objectArray(xmlData, dataTemplate).then(result => {
             windSpeed : elementValues[1],
             windDirection : elementValues[0]
         }
+    
     })
+
+    weatherDataValue.shift()
+    weatherDataValue.pop()
+
+    
+    
+    
+
     console.log(weatherDataValue)     
     });
 
 
 
-   
+
+
+
+
 
 
     
