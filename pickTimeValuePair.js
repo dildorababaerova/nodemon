@@ -1057,12 +1057,9 @@ const windTemplate = ['wfs:FeatureCollection/wfs:member/omso:PointTimeSeriesObse
 }];
 
 
-const xml2objectArray2 = async (xmlWindData, windTemplate) => {
-    const result = await transform(xmlWindData, windTemplate);
-    return  result
-}
 
-xml2objectArray2(xmlWindData, windTemplate).then(result => {
+
+xml2objectArray(xmlWindData, windTemplate).then(result => {
     weatherDataWind = result
 
     console.log(weatherDataWind)
