@@ -26,5 +26,5 @@ module.exports = {
     query2
 }
 
-// query2()
-// .then((resultset) => console.log(resultset.rows[0]))
+query2()
+.then((resultset) => console.log(resultset.rows))

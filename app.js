@@ -59,6 +59,7 @@ app.get('/test', (req, res) => {
     testPgPool.query2().then((resultset) => {
         
         xhours = JSON.stringify(resultset.rows.map(row => Number(row.hour)));
+        console.log(xhours)
         yprices = JSON.stringify(resultset.rows.map(row => row.price));
 
 
@@ -69,11 +70,12 @@ app.get('/test', (req, res) => {
         let chartPageData = {'hours': xhours, 'prices': yprices}
 
         
+
+        
         // console.log(resultset.rows)   
         res.render('testCJSv4', chartPageData);
     });
 });
-
 
     
     

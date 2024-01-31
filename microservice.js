@@ -25,7 +25,7 @@ const logFile = 'dataOperations.log'
 
 // Try to run an operation in 5 minute intervals from 3 to 4 PM
 // TODO: Add time pattern to settings.json file
-cron.schedule('* 22 * * *', () => {
+cron.schedule('* 14 * * *', () => {
   try {
     let timestamp = new Date(); // Get the current timestamp
     let dateStr = timestamp.toLocaleDateString(); // Take date part of the timestamp
