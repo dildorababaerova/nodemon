@@ -8,7 +8,7 @@ const pool= new Pool({
     port: 5432, 
 });
 
-let sqlClause = 'SELECT * FROM public.hourly_page'
+
 
 
 // const query1 = pool.query(sqlClause, (error, results) => {
@@ -18,7 +18,7 @@ let sqlClause = 'SELECT * FROM public.hourly_page'
 //     console.log(results.rows);
 // })
 const query2 = async () => {
-    let resultset = await pool.query(sqlClause);
+    let resultset = await pool.query('SELECT * FROM public.hourly_page');
     return resultset
 }
 
@@ -26,5 +26,5 @@ module.exports = {
     query2
 }
 
-query2()
-.then((resultset) => console.log(resultset.rows))
+// query2()
+// .then((resultset) => console.log(resultset.rows))
