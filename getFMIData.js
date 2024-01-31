@@ -39,7 +39,7 @@ class WeatherObservationTimeValuePair {
             method : 'get',
             maxBodyLength: 'infinity',
             url:this.url,
-            headers: {},
+            headers: {}
         };
 
         }
@@ -56,7 +56,7 @@ class WeatherObservationTimeValuePair {
         };
 
         putTimeValuePairsToDb() {
-            const tableName = this.parameterName + '_observation'
+            const tableName = this.parameterName + '_observation';
 
             const sqlClause = 'INSERT INTO public.' + tableName + 'VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING *';
 
@@ -70,21 +70,21 @@ class WeatherObservationTimeValuePair {
 
 
                             const runQuery = async () => {
-                            let resultset = await pool.query(sqlClause, values);
-                            return resultset;
-                            }
-                            runQuery().then((resultset) => {
-                                let message = ''
-                            
-                                if (resultset.rows[0] != undefined) {
-                                    message = 'Added a row' // The message when not undefined
+                                let resultset = await pool.query(sqlClause, values);
+                                return resultset;
                                 }
-                                else {
-                                 message = 'Skipped an existing row' // The message when undefined
-                                }
-                  
-                              // Log the result of insert operation
-                                console.log(message);
+                                runQuery().then((resultset) => {
+                                    let message = ''
+                                
+                                    if (resultset.rows[0] != undefined) {
+                                        message = 'Added a row' // The message when not undefined
+                                    }
+                                    else {
+                                    message = 'Skipped an existing row' // The message when undefined
+                                    }
+                    
+                                // Log the result of insert operation
+                                    console.log(message);
 
                         })
                     })
