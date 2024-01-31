@@ -1,7 +1,6 @@
 const axios = require('axios');
+
 const {transform, prettyPrint} = require('camaro');
-const e = require('express');
-const { response, request } = require('express');
 
 const Pool = require('pg').Pool;
 
@@ -11,7 +10,7 @@ const pool = new Pool ({
     host: 'localhost',
     database: 'smarthome',
     port: 5432,
-})
+});
 
 class WeatherObservationTimeValuePair {
     constructor(place, parameterCode, parameterName) {
@@ -27,7 +26,7 @@ class WeatherObservationTimeValuePair {
         'wfs:FeatureCollection/wfs:member/omso:PointTimeSeriesObservation/om:result/wml2:MeasurementTimeseries/wml2:point/wml2:MeasurementTVP';
         
         
-        let names = {timeStamp: 'wml2:time', value: 'number(wml2:value)'};
+        let names = {timeStamp:'wml2:time', value:'number(wml2:value)'};
 
         names[this.parameterName] = names['value'];
         delete names['value']
@@ -64,28 +63,28 @@ class WeatherObservationTimeValuePair {
             axios
                 .request(this.axiosConfig)
                 .then((response) => {
-                transform(response.data, this.xmlTemplate)
-                .then((result) => {
-                    result.forEach((element) => {
-                        let values = [element.timeStamp, element[this.parameterName], this.place]
+                    transform(response.data, this.xmlTemplate)
+                        .then((result) => {
+                        result.forEach((element) => {
+                            let values = [element.timeStamp, element[this.parameterName], this.place]
 
 
-                        const runQuery = async () => {
+                            const runQuery = async () => {
                             let resultset = await pool.query(sqlClause, values);
                             return resultset;
-                        }
-                        runQuery().then((resultset) => {
-                            let message = ''
+                            }
+                            runQuery().then((resultset) => {
+                                let message = ''
                             
-                            if (resultset.rows[0] != undefined) {
-                                message = 'Added a row' // The message when not undefined
-                              }
-                              else {
-                                message = 'Skipped an existing row' // The message when undefined
-                              }
+                                if (resultset.rows[0] != undefined) {
+                                    message = 'Added a row' // The message when not undefined
+                                }
+                                else {
+                                 message = 'Skipped an existing row' // The message when undefined
+                                }
                   
                               // Log the result of insert operation
-                              console.log(message);
+                                console.log(message);
 
                         })
                     })
@@ -99,7 +98,7 @@ class WeatherObservationTimeValuePair {
 
         };
 }
-const timeValuePair = new WeatherObservationTimeValuePair('t2m', 'temperature', 'Raahe');
+const timeValuePair = new WeatherObservationTimeValuePair('Raahe', 't2m', 'temperature');
 console.log(timeValuePair.url);
 console.log(timeValuePair.xmlTemplate);
 timeValuePair.putTimeValuePairsToDb()
