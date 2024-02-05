@@ -20,38 +20,38 @@ app.set('views', './views');
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 
-// app.get('/', (req, res)=> {
+app.get('/', (req, res)=> {
     
-//     let homePageData= {
-//         'price': 0,
-//         'wind': 0,
-//         'temperature': 0,
-//     };
+    let homePageData= {
+        'price': 0,
+        'wind': 0,
+        'temperature': 0,
+    };
 
-//     // testPgPool.query2().then(
-//     //     (results) => {
-//     //         homePageData.price = results.rows[0].price;
-//     //         res.render('index', homePageData)
-//     //     }
-//     // )
+    testPgPool.query2().then(
+        (results) => {
+            homePageData.price = results.rows[0].price;
+            res.render('index', homePageData)
+        }
+    )
 
-//     testPgPool.query2().then((resultset) => {
-//         homePageData.price = resultset.rows[0]['price']
-//         console.log(resultset.rows[0]['price'])   
-//     res.render('index', homePageData)
+    testPgPool.query2().then((resultset) => {
+        homePageData.price = resultset.rows[0]['price']
+        console.log(resultset.rows[0]['price'])   
+    res.render('index', homePageData)
 
-//     });
-// })
+    });
+})
 
-// app.get('/hourly', (req, res) => {
+app.get('/hourly', (req, res) => {
 
-//     testPgPool.query2().then((resultset) => {
-//         let tableData = resultset.rows.price
-//         let hourlyPageData = {'tableData': tableData}
-//         //console.log(resultset.rows)   
-//     res.render('hourly', hourlyPageData)
-//     });
-// })
+    testPgPool.query2().then((resultset) => {
+        let tableData = resultset.rows.price
+        let hourlyPageData = {'tableData': tableData}
+        //console.log(resultset.rows)   
+    res.render('hourly', hourlyPageData)
+    });
+})
 
 
 app.get('/test', (req, res) => {

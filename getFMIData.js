@@ -1,16 +1,17 @@
 const axios = require('axios');
 
 const {transform, prettyPrint} = require('camaro');
+const { response } = require('express');
 
-const Pool = require('pg').Pool;
+// const Pool = require('pg').Pool;
 
-const pool = new Pool ({
-    user: 'postgres',
-    password: 'Q2werty',
-    host: 'localhost',
-    database: 'smarthome',
-    port: 5432,
-});
+// const pool = new Pool ({
+//     user: 'postgres',
+//     password: 'Q2werty',
+//     host: 'localhost',
+//     database: 'smarthome',
+//     port: 5432,
+// });
 
 class WeatherObservationTimeValuePair {
     constructor(place, parameterCode, parameterName) {
@@ -50,15 +51,20 @@ class WeatherObservationTimeValuePair {
             })
         }
         
-        async convertXml2array(xmlData, template) {
-            const result = await transform(xmlData, template);
-            return result;
-        };
+        readConvertToArray() {
+            axios.request(this.axiosConfig).then((response) => {
+                transform(response.data, this.xmlTemplate).then((result) => {
+                    console.log(result)
+                    return result
+                })
+            })
+        }
 
         putTimeValuePairsToDb() {
-            const tableName = this.parameterName + '_observation';
 
-            const sqlClause = 'INSERT INTO public.' + tableName + 'VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING *';
+            //let tableName = this.parameterName + '_observation';
+
+            //const sqlClause = 'INSERT INTO public.' + tableName + ' VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING *';
 
             axios
                 .request(this.axiosConfig)
@@ -68,25 +74,27 @@ class WeatherObservationTimeValuePair {
                         result.forEach((element) => {
                             let values = [element.timeStamp, element[this.parameterName], this.place]
 
+                            console.log(values)
 
-                            const runQuery = async () => {
-                                let resultset = await pool.query(sqlClause, values);
-                                return resultset;
+                            // const runQuery = async () => {
+                            //     let resultset = await pool.query(sqlClause, values);
+                            //     return resultset;
+                            // }
+                            
+                            /* runQuery().then((resultset) => {
+                                let message = ''
+                            
+                                if (resultset.rows[0] != undefined) {
+                                    message = 'Added a row' // The message when not undefined
                                 }
-                                runQuery().then((resultset) => {
-                                    let message = ''
-                                
-                                    if (resultset.rows[0] != undefined) {
-                                        message = 'Added a row' // The message when not undefined
-                                    }
-                                    else {
-                                    message = 'Skipped an existing row' // The message when undefined
-                                    }
-                    
-                                // Log the result of insert operation
-                                    console.log(message);
+                                else {
+                                message = 'Skipped an existing row' // The message when undefined
+                                }
+                
+                            // Log the result of insert operation
+                                console.log(message);
 
-                        })
+                            }) */
                     })
                 })
 
