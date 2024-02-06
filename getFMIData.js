@@ -3,15 +3,15 @@ const axios = require('axios');
 const {transform, prettyPrint} = require('camaro');
 const { response } = require('express');
 
-// const Pool = require('pg').Pool;
+const Pool = require('pg').Pool;
 
-// const pool = new Pool ({
-//     user: 'postgres',
-//     password: 'Q2werty',
-//     host: 'localhost',
-//     database: 'smarthome',
-//     port: 5432,
-// });
+const pool = new Pool ({
+    user: 'postgres',
+    password: 'Q2werty',
+    host: 'localhost',
+    database: 'smarthome',
+    port: 5432,
+});
 
 class WeatherObservationTimeValuePair {
     constructor(place, parameterCode, parameterName) {
@@ -62,9 +62,9 @@ class WeatherObservationTimeValuePair {
 
         putTimeValuePairsToDb() {
 
-            //let tableName = this.parameterName + '_observation';
+            let tableName = this.parameterName + '_observation';
 
-            //const sqlClause = 'INSERT INTO public.' + tableName + ' VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING *';
+            const sqlClause = 'INSERT INTO public.' + tableName + ' VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING *';
 
             axios
                 .request(this.axiosConfig)
@@ -76,12 +76,12 @@ class WeatherObservationTimeValuePair {
 
                             console.log(values)
 
-                            // const runQuery = async () => {
-                            //     let resultset = await pool.query(sqlClause, values);
-                            //     return resultset;
-                            // }
+                            const runQuery = async () => {
+                                let resultset = await pool.query(sqlClause, values);
+                                return resultset;
+                            }
                             
-                            /* runQuery().then((resultset) => {
+                            runQuery().then((resultset) => {
                                 let message = ''
                             
                                 if (resultset.rows[0] != undefined) {
@@ -94,7 +94,7 @@ class WeatherObservationTimeValuePair {
                             // Log the result of insert operation
                                 console.log(message);
 
-                            }) */
+                            }) 
                     })
                 })
 
@@ -107,6 +107,7 @@ class WeatherObservationTimeValuePair {
         };
 }
 const timeValuePair = new WeatherObservationTimeValuePair('Raahe', 't2m', 'temperature');
+
 console.log(timeValuePair.url);
 console.log(timeValuePair.xmlTemplate);
 timeValuePair.putTimeValuePairsToDb()
