@@ -4,6 +4,7 @@ const {transform, prettyPrint} = require('camaro');
 const { response } = require('express');
 
 const Pool = require('pg').Pool;
+const Pool2 = require('pg-pool').Pool;
 
 const pool = new Pool ({
     user: 'postgres',
